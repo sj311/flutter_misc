@@ -146,4 +146,4 @@ class FileLogger {
   }
 }
 
-FileLogger gdefaultFileLogger = FileLogger();
+FileLogger gDefaultFileLogger = FileLogger();

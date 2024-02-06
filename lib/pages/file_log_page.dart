@@ -28,14 +28,14 @@ class _FileLogPageState extends State<FileLogPage> with BuilderFloatingActions {
   @override
   void initState() {
     super.initState();
-    gdefaultFileLogger.init();
-    gdefaultFileLogger.setFileLimit(1024 * 500, 1024 * 1024);
+    gDefaultFileLogger.init();
+    gDefaultFileLogger.setFileLimit(1024 * 500, 1024 * 1024);
     _readLogStatus();
   }
 
   Future<void> _readLogStatus() async {
     List<String> loadedLogs =
-        (await gdefaultFileLogger.readLogs()).reversed.toList();
+        (await gDefaultFileLogger.readLogs()).reversed.toList();
 
     File file = File(await FileLogger.getDefaultLogPath());
     int currentSize = await file.length();
@@ -52,20 +52,20 @@ class _FileLogPageState extends State<FileLogPage> with BuilderFloatingActions {
 
   void _incrementCounter() async {
     for (int i = 1; i <= 1000; i++) {
-      gdefaultFileLogger.log(
+      gDefaultFileLogger.log(
           '[${i + _lineCount} ] this is sample log, ${generateDummyString(300)}');
     }
-    await gdefaultFileLogger.waitLogFin();
+    await gDefaultFileLogger.waitLogFin();
     _readLogStatus();
   }
 
   void _truncateFile() async {
-    await gdefaultFileLogger.truncateFile(0);
+    await gDefaultFileLogger.truncateFile(0);
     _readLogStatus();
   }
 
   void _truncateTest() async {
-    await gdefaultFileLogger.truncateFile(500, 1000);
+    await gDefaultFileLogger.truncateFile(500, 1000);
     _readLogStatus();
   }
 

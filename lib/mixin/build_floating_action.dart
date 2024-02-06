@@ -1,41 +1,53 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
 
 //float action 버튼 그룹,
 mixin BuilderFloatingActions<T extends StatefulWidget> on State<T> {
   //float action 버튼하고 비슷하게 생긴버튼 리턴
   @protected
   Widget buildFloatingActionButton(
-      {IconData? icon, String? text, required VoidCallback onPressed}) {
+      {IconData? icon,
+      String? text,
+      required VoidCallback onPressed,
+      bool right = false}) {
+    //children 만들기
+    final children = [
+      if (icon != null) Icon(icon),
+      if (icon != null && text != null)
+        const SizedBox(width: 8.0), // 아이콘과 텍스트 사이의 간격 조절
+      if (text != null) Text(text),
+    ];
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        padding: const EdgeInsets.all(16.0),
+        // padding: const EdgeInsets.all(16.0),
         elevation: 8.0, // 그림자 높이 조절
       ),
       child: Row(
-        children: [
-          if(icon != null) Icon(icon),
-          if(icon != null && text != null) const SizedBox(width: 8.0), // 아이콘과 텍스트 사이의 간격 조절
-          if(text != null) Text(text),
-        ],
+        children: right ? children.reversed.toList() : children,
       ),
     );
   }
 
   //float action 버튼하고 비슷하게 생긴버튼 리턴
   @protected
-  Widget buildFloatingActions(Widget child) {
-    return 
+  Widget buildFloatingActions({required Widget child, bool isTop = false}) {
+    double? top;
+    double? bottom;
+
+    if (isTop) {
+      top = 50;
+    } else {
+      bottom = 16;
+    }
+
+    return
         // 부모 우측 하단에 배치되는 자식 위젯
         Positioned(
-          right: 16,
-          bottom: 16,
-        //   right: 16,
-          child: child,
-        );
+      top: top,
+      right: 16,
+      bottom: bottom,
+      child: child,
+    );
   }
 }
